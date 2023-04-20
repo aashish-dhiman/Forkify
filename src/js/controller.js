@@ -16,7 +16,7 @@ const controlRecipes = async function () {
         //getting recipe id
         const id = window.location.hash.slice(1);
         console.log(id);
-
+        
         if (!id) return;
 
         // rendering spinner
@@ -29,10 +29,11 @@ const controlRecipes = async function () {
         console.log(model.state.recipe);
         recipeView.render(model.state.recipe);
     } catch (err) {
-        alert(err);
+        console.log(err);
     }
 };
 
-["hashchange", "load"].forEach((ev) => {
-    window.addEventListener(ev, controlRecipes);
-});
+const init = function () {
+    recipeView.addHandlerRender(controlRecipes);
+};
+init();
