@@ -16,7 +16,7 @@ const controlRecipes = async function () {
         //getting recipe id
         const id = window.location.hash.slice(1);
         console.log(id);
-        
+
         if (!id) return;
 
         // rendering spinner
@@ -29,7 +29,8 @@ const controlRecipes = async function () {
         console.log(model.state.recipe);
         recipeView.render(model.state.recipe);
     } catch (err) {
-        console.log(err);
+        // console.log(err);
+        recipeView.renderError();
     }
 };
 

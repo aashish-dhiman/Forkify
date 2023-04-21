@@ -1,5 +1,6 @@
 import { API_URL } from "./config.js";
 import { getJSON } from "./views/helper.js";
+import recipeView from "./views/recipeView.js";
 
 export const state = {
     recipe: {},
@@ -23,6 +24,9 @@ export const loadRecipe = async function (id) {
         console.log(state.recipe);
     } catch (err) {
         //temporary error handling
-        console.log(`${err} from model.js`);
+        // console.log(`${err} from model.js`);
+
+        //rejects current promise and calls the parent promise from controller.js
+        throw err;
     }
 };
