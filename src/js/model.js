@@ -1,4 +1,4 @@
-import { API_URL } from "./config.js";
+import { API_URL, RES_PER_PAGE } from "./config.js";
 import { getJSON } from "./views/helper.js";
 import recipeView from "./views/recipeView.js";
 
@@ -7,6 +7,8 @@ export const state = {
     search: {
         query: "",
         results: [],
+        resultsPerPage: RES_PER_PAGE,
+        page: 1,
     },
 };
 
@@ -25,7 +27,7 @@ export const loadRecipe = async function (id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients,
         };
-        console.log(state.recipe);
+        // console.log(state.recipe);
     } catch (err) {
         //temporary error handling
         // console.log(`${err} from model.js`);
@@ -39,7 +41,7 @@ export const loadSearchResult = async function (query) {
     try {
         state.search.query = query;
         const data = await getJSON(`${API_URL}?search=${query}`);
-        console.log(data);
+        // console.log(data);
 
         state.search.results = data.data.recipes?.map((rec) => {
             return {
@@ -52,4 +54,14 @@ export const loadSearchResult = async function (query) {
     } catch (err) {
         throw err;
     }
+};
+
+export const getSearchResultsPage = function (page = state.search.page) {
+    state.search.page = page;
+    const start = (page - 1) * state.search.resultsPerPage; //0
+    const end = page * state.search.resultsPerPage; //9
+    // console.log(state.resultsPerPage);
+    // console.log(start, end);
+
+    return state.search.results.slice(start, end);
 };

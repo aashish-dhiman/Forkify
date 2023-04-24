@@ -14,9 +14,9 @@ export const getJSON = async function (url) {
     try {
         const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
         const data = await res.json();
-        console.log(res, data);
+        // console.log(res, data);
         if (!res.ok) throw new Error(`${data.message}` + `Error ${res.status}`);
-        return data;
+        // return data;
     } catch (err) {
         //throws error from parent call->model.js
         throw err;
