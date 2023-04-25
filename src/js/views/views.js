@@ -2,6 +2,7 @@ import icons from "../../img/icons.svg";
 
 export default class View {
     _data;
+
     render(data) {
         if (!data || (Array.isArray(data) && data.length === 0))
             return this.renderError();
@@ -11,6 +12,44 @@ export default class View {
 
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+
+        //creating virtual DOM to compare the changed parameters
+        const newDOM = document
+            .createRange()
+            .createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        // console.log(newElements);
+        const curElements = Array.from(
+            this._parentElement.querySelectorAll("*")
+        );
+        // console.log(newElements,curElements);
+
+        newElements.forEach((newEl, i) => {
+            const curEl = curElements[i];
+            // console.log(curEl, newEl.isEqualNode(curEl));
+
+            //update changed text
+            if (
+                !newEl.isEqualNode(curEl) &&
+                newEl.firstChild?.nodeValue.trim() !== ""
+            ) {
+                // console.log(newEl.firstChild.nodeValue);
+                curEl.textContent = newEl.textContent;
+            }
+
+            //update changed Attributes
+            if (!newEl.isEqualNode(curEl)) {
+                // console.log(newEl.attributes);
+                Array.from(newEl.attributes).forEach((attr) => {
+                    curEl.setAttribute(attr.name, attr.value);
+                });
+            }
+        });
     }
 
     _clear() {

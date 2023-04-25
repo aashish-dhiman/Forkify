@@ -3,7 +3,8 @@ import icons from "../../img/icons.svg";
 
 class ResultsView extends View {
     _parentElement = document.querySelector(".results");
-    _errorMessage = "No recipe found for the given keyword, Please try another one!";
+    _errorMessage =
+        "No recipe found for the given keyword, Please try another one!";
     _message = "";
 
     _generateMarkup() {
@@ -14,9 +15,12 @@ class ResultsView extends View {
 
     _generateMarkupPreview(results) {
         // console.log(results);
+        const id = window.location.hash.slice(1);
         return `
         <li class="preview">
-            <a class="preview__link" href="#${results.id}">
+            <a class="preview__link ${
+                results.id === id ? "preview__link--active" : ""
+            }" href="#${results.id}">
               <figure class="preview__fig">
                 <img src="${results.image}" alt="${results.title}" />
               </figure>
