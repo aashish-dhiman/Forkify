@@ -29,7 +29,13 @@ class BookmarksView extends View {
               <div class="preview__data">
                 <h4 class="preview__title">${results.title}</h4>
                 <p class="preview__publisher">${results.publisher}</p>
-                
+                <div class="recipe__user-generated ${
+                    results.key ? "" : "hidden"
+                }">
+                  <svg>
+                    <use href="${icons}#icon-user"></use>
+                  </svg>
+                </div>
               </div>
             </a>
           </li>
